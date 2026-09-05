@@ -19,8 +19,6 @@ public static class IconSizeParser
             sizes.Add(size);
         }
 
-        if (sizes.Count == 0)
-            throw new ArgumentException("At least one icon size is required.");
         return sizes.ToArray();
     }
 }
