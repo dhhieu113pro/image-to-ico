@@ -42,6 +42,18 @@ public class ImageConverterTests
         Assert.Equal(new[] { 32 }, ReadIcoSizes(output));
     }
 
+    [Fact]
+    public void Convert_RootOutputPathSkipsParentDirectoryCreation()
+    {
+        using var temp = new TempDirectory();
+        var input = Path.Combine(temp.Path, "logo.png");
+        using (var image = new MagickImage(MagickColors.Blue, 64, 64)) image.Write(input, MagickFormat.Png);
+        var rootOutput = Path.GetPathRoot(Path.GetFullPath(temp.Path))!;
+
+        Assert.Throws<MagickException>(() =>
+            ImageConverter.Convert(new CliOptions(input, rootOutput, [32], false, 8, null, false)));
+    }
+
     private static int[] ReadIcoSizes(string path)
     {
         using var reader = new BinaryReader(File.OpenRead(path));
