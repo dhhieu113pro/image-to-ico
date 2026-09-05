@@ -11,7 +11,16 @@ public static class Program
             return 2;
         }
 
-        Console.Error.WriteLine("Image conversion is not implemented yet.");
-        return 1;
+        try
+        {
+            ImageConverter.Convert(parsed.Options!);
+            Console.WriteLine($"Created {parsed.Options!.OutputPath}");
+            return 0;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or ImageMagick.MagickException)
+        {
+            Console.Error.WriteLine(ex.Message);
+            return 1;
+        }
     }
 }
