@@ -28,3 +28,36 @@ jobs:
           python-version: "3.13"
       - name: Test with 100% coverage gate
         run: python scripts/test-all.py
+
+  publish:
+    name: publish NuGet
+    needs: verify
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Pack release
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          dotnet pack src/ImageToIco/ImageToIco.csproj \
+            --configuration Release \
+            --output artifacts \
+            -p:PackageVersion="$version"
+
+      - name: NuGet login (OIDC)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: dhhieu113pro
+
+      - name: Push package to NuGet.org
+        run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
