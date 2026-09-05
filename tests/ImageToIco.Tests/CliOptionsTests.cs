@@ -4,6 +4,20 @@ namespace ImageToIco.Tests;
 
 public class CliOptionsTests
 {
+    public static TheoryData<string[]> InvalidArguments => new()
+    {
+        Array.Empty<string>(),
+        new[] { "logo.png" },
+        new[] { "logo.png", "app.ico", "--fuzz", "-1" },
+        new[] { "logo.png", "app.ico", "--fuzz", "101" },
+        new[] { "logo.png", "app.ico", "--fuzz", "not-a-number" },
+        new[] { "logo.png", "app.ico", "--unknown" },
+        new[] { "logo.png", "app.ico", "--sizes" },
+        new[] { "logo.png", "app.ico", "--fuzz" },
+        new[] { "logo.png", "app.ico", "--background-color" },
+        new[] { "logo.png", "app.ico", "--sizes", "257" }
+    };
+
     [Fact]
     public void Parse_ReadsConversionOptions()
     {
@@ -38,16 +52,7 @@ public class CliOptionsTests
     }
 
     [Theory]
-    [InlineData(new string[] { })]
-    [InlineData(new[] { "logo.png" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--fuzz", "-1" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--fuzz", "101" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--fuzz", "not-a-number" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--unknown" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--sizes" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--fuzz" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--background-color" })]
-    [InlineData(new[] { "logo.png", "app.ico", "--sizes", "257" })]
+    [MemberData(nameof(InvalidArguments))]
     public void Parse_RejectsInvalidArguments(string[] args)
     {
         var result = CliOptions.Parse(args);
