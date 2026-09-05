@@ -1,8 +1,10 @@
 # Image to ICO
 
+[![NuGet](https://img.shields.io/nuget/v/ImageToIco.Dnx.svg)](https://www.nuget.org/packages/ImageToIco.Dnx)
+
 Convert a large PNG/JPEG/WebP/BMP/TIFF image into a multi-resolution Windows `.ico` file from .NET 10.
 
-The tool is published as the NuGet .NET tool package `ImageToIco.Dnx`, so consumers can run it directly with `dnx` without a permanent global install.
+The tool is published as the NuGet .NET tool package [`ImageToIco.Dnx`](https://www.nuget.org/packages/ImageToIco.Dnx), so consumers can run it directly with `dnx` without a permanent global install.
 
 ## Requirements
 
