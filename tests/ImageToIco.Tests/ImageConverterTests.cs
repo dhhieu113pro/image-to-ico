@@ -50,7 +50,7 @@ public class ImageConverterTests
         using (var image = new MagickImage(MagickColors.Blue, 64, 64)) image.Write(input, MagickFormat.Png);
         var rootOutput = Path.GetPathRoot(Path.GetFullPath(temp.Path))!;
 
-        Assert.Throws<MagickException>(() =>
+        Assert.ThrowsAny<MagickException>(() =>
             ImageConverter.Convert(new CliOptions(input, rootOutput, [32], false, 8, null, false)));
     }
 
