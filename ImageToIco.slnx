@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/ImageToIco/ImageToIco.csproj" />
+  <Project Path="tests/ImageToIco.Tests/ImageToIco.Tests.csproj" />
+</Solution>
