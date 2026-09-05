@@ -17,7 +17,7 @@ def main() -> int:
             "--configuration", "Release",
             "/p:CollectCoverage=true",
             "/p:Threshold=100",
-            "/p:ThresholdType=line,branch,method",
+            "/p:ThresholdType=line%2cbranch%2cmethod",
             "/p:ThresholdStat=total",
             "/p:CoverletOutputFormat=json"
         ], repo)
